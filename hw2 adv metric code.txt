@@ -1,0 +1,58 @@
+pooledmodel<-function(){
+for (i in 1:N) {
+ output[i] ~ dnorm(mu[i],tau)
+ mu[i] <-  beta_bygrp[ID[i],1] +beta_bygrp[ID[i],2] *cost[i]+beta_bygrp[ID[i],3] * fuel[i]+ beta_bygrp[ID[i],4] * load[i] }
+for( j in 1 : 6){
+ beta_bygrp[j,1:4] ~  dmnorm(betamean[1:4],taubeta[1:4,1:4])}
+betamean[1:4] ~ dmnorm(mn[1:4], prec[1:4 ,1:4 ])
+taubeta[1:4,1:4] ~dwish(R[1:4,1:4],4)
+tau ~ dgamma(1,1.0E-3)
+sigma2<-1.0/tau
+sigma[1:4,1:4]<-inverse(taubeta[1:4,1:4])
+}
+
+pooledmodel2<-function(){
+for (i in 1:N) {
+ output[i] ~ dnorm(mu[i],tau)
+ mu[i] <-  beta_bygrp[1,ID[i]] +beta_bygrp[2,ID[i]] *cost[i]+beta_bygrp[3,ID[i]] * fuel[i]+ beta_bygrp[4,ID[i]] * load[i] }
+for( j in 1 : 4){
+ beta_bygrp[j,1:6] ~  dmnorm(betamean[1:6],taubeta[1:6,1:6])}
+betamean[1:6] ~ dmnorm(mn[1:6], prec[1:6 ,1:6 ])
+taubeta[1:6,1:6] ~dwish(R[1:6,1:6],6)
+tau ~ dgamma(0.1,1.0E-3)
+sigma2<-1.0/tau
+}
+pooledmodel3<-function(){
+for (i in 1:N) {
+ output[i] ~ dnorm(mu[i],tau)
+ mu[i] <-  beta_bygrp[ID[i],1] +beta_bygrp[ID[i],2] *cost[i]+beta_bygrp[ID[i],3] * fuel[i]+ beta_bygrp[ID[i],4] * load[i] }
+for( j in 1 : 6){
+ beta_bygrp[j,1:4] ~  dmnorm(betamean[1:4],taubeta[1:4,1:4])}
+betamean[1] ~ dnorm(0,1.0E-6 )
+betamean[2] ~ dnorm(0,1.0E-6 )
+betamean[3] ~ dnorm(0,1.0E-6 )
+betamean[4] ~ dnorm(0,1.0E-6 )
+taubeta[1:4,1:4] ~dwish(R[1:4,1:4],4)
+tau ~ dgamma(1,1.0E-3)
+sigma2<-1.0/tau
+sigma[1:4,1:4]<-inverse(taubeta[1:4,1:4])
+}
+mn = c(0, 0, 0, 0)
+prec = structure(.Data = c(0.0001, 0, 0, 0,0, 0.0001, 0, 0,0,0, 0.0001,0,0,0,0,0.0001), .Dim = c(4, 4))
+R = structure(.Data = c(0.1, 0.005, 0.005, 0.005,0.005, 0.1, 0.005, 0.005,0.005, 0.005,0.1, 0.005,0.005, 0.005,0.005, 0.1), .Dim = c(4, 4))
+
+pooledmodel<-function(){
+for(i in 1:N) {
+output[i] ~ dnorm(mu[i],tau)
+mu[i] <- beta0 + beta1* cost[i]+ beta2*
+fuel[i]+ beta3* load[i] }
+beta0 ~ dnorm(0,1.0E-6)
+beta1 ~ dnorm(0,1.0E-6)
+beta2 ~ dnorm(0,1.0E-6)
+beta3 ~ dnorm(0,1.0E-6)
+tau ~ dgamma(1.0E-3,1.0E-3)
+sigma2 <- 1.0/tau
+}
+
+
+
